@@ -105,7 +105,7 @@ namespace Logica.ClassLibrary
             {
                 bool result = false;
                 
-                dataUsiario.usu_status = "I";
+                dataUsiario.usu_status = 'I';
                 dc.SubmitChanges();
 
                 result = true;
@@ -116,7 +116,7 @@ namespace Logica.ClassLibrary
             catch (global::System.Exception ex)
             {
 
-                throw new ArgumentException("error al oeliminar el usuario " + ex.Message);
+                throw new ArgumentException("error al eliminar el usuario " + ex.Message);
             }
         }
     }
