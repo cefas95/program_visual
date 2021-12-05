@@ -14,7 +14,9 @@ namespace Logica.ClassLibrary
         {
             try
             {
-                var lista = dc.Usuario.Where(data => data.usu_status =='A');
+                // cargando datos al data grill viw
+                var lista = dc.Usuario.Where(data => data.usu_status == 'A')
+                                          .OrderBy(ord => ord.usu_apellidos);
                 return lista.ToList();
             }
 
@@ -80,7 +82,7 @@ namespace Logica.ClassLibrary
                 throw new ArgumentException("error al guardar el usuario " + ex.Message);
             }
         }
-     
+
         public static bool updateUser(Usuario dataUsiario)
         {
             try
@@ -99,12 +101,52 @@ namespace Logica.ClassLibrary
                 throw new ArgumentException("error al instertar el usuario " + ex.Message);
             }
         }
+        public static bool updateUser2(Usuario dataUsiario)
+        {
+            try
+            {
+                bool result = false;
+                dataUsiario.usu_update = DateTime.Now;
+
+                dc.ExecuteCommand("UPDATE [dbo].[Usuario]" +
+                                   "SET[usu_correo] ={ 0} " +
+                                     // ",[usu_password] = { 1}" +
+                                      ",[usu_apellidos] ={ 1} " +
+                                      ",[usu_nombres] = { 2}" +
+                                      ",[usu_update] = { 3}" +
+                                      ",[rol_id] = { 4}" +
+                                 "WHERE[usu_id] { 5}", new object[]
+                                 {
+                                     dataUsiario.usu_correo,
+                                    // dataUsiario.usu_password,
+                                     dataUsiario.usu_apellidos,
+                                     dataUsiario.usu_nombres,
+                                     dataUsiario.usu_update,
+                                     dataUsiario.rol_id,
+                                     dataUsiario.usu_id
+
+                                 });
+                dc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, dc.Usuario);
+
+                dc.SubmitChanges();
+                result = true;
+                return result;
+            }
+
+
+            catch (global::System.Exception ex)
+            {
+
+                throw new ArgumentException("error al instertar el usuario " + ex.Message);
+            }
+        }
+
         public static bool deleteUser(Usuario dataUsiario)
         {
             try
             {
                 bool result = false;
-                
+
                 dataUsiario.usu_status = 'I';
                 dc.SubmitChanges();
 

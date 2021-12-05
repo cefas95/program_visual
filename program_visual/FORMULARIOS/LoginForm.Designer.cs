@@ -105,6 +105,7 @@ namespace program_visual
             this.btncancelar.TabIndex = 6;
             this.btncancelar.Text = "CANCELAR";
             this.btncancelar.UseVisualStyleBackColor = false;
+            this.btncancelar.Click += new System.EventHandler(this.btncancelar_Click);
             // 
             // LoginForm
             // 
